@@ -13,21 +13,24 @@ Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/e/executing/executing-%{version}.tar.gz
 # Source0-md5:	6d79de70b73814ee0ac523140c47714f
 URL:		https://pypi.org/project/executing/
-BuildRequires:	python3-modules >= 1:3.5
+BuildRequires:	python3-modules >= 1:3.8
 BuildRequires:	python3-setuptools
 BuildRequires:	python3-setuptools_scm
-# for setuptools_scm[toml] >= ? with python3 < 3.11
+%if "%{_ver_lt %{py3_ver} 3.11}" == "1"
 BuildRequires:	python3-tomli >= 1
+%endif
 %if %{with tests}
-BuildRequires:	python3-asttokens
+BuildRequires:	python3-asttokens >= 2.1.0
+BuildRequires:	python3-ipython
 BuildRequires:	python3-littleutils
 BuildRequires:	python3-pytest
-# py3.11+
-#BuildRequires:	python3-rich
+%if "%{_ver_ge %{py3_ver} 3.11}" == "1"
+BuildRequires:	python3-rich
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
-Requires:	python3-modules >= 1:3.5
+BuildRequires:	rpmbuild(macros) >= 1.749
+Requires:	python3-modules >= 1:3.8
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
